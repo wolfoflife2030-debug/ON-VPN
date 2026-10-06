@@ -20,6 +20,7 @@ import com.wireguard.android.backend.GoBackend
 import com.wireguard.android.backend.Statistics
 import com.wireguard.android.backend.Tunnel
 import com.wireguard.config.Config
+import java.io.BufferedReader
 import java.io.StringReader
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
