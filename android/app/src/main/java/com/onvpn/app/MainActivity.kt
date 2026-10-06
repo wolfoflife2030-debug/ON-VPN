@@ -128,7 +128,7 @@ class MainActivity : Activity() {
             return
         }
         val parsed = try {
-            Config.parse(StringReader(raw))
+            Config.parse(BufferedReader(StringReader(raw)))
         } catch (e: Exception) {
             Toast.makeText(this, "الإعداد غير صالح: ${e.message ?: "تحقق من الملف"}", Toast.LENGTH_LONG).show()
             return
