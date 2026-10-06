@@ -29,11 +29,11 @@ jobs:
         with:
           dotnet-version: "8.0.x"
       - name: Restore
-        run: dotnet restore OnVpn.Client/OnVpn.Client.csproj
+        run: dotnet restore OnVpn.Client/OnVpn.Client.csproj -r win-x64
       - name: Build
         run: dotnet build OnVpn.Client/OnVpn.Client.csproj -c Release --no-restore -p:Platform=x64
       - name: Publish Windows x64
-        run: dotnet publish OnVpn.Client/OnVpn.Client.csproj -c Release --no-restore -r win-x64 --self-contained false -p:Platform=x64 -o publish
+        run: dotnet publish OnVpn.Client/OnVpn.Client.csproj -c Release --no-restore -r win-x64 --self-contained true -p:Platform=x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v7
         with:
