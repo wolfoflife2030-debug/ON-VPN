@@ -1,0 +1,43 @@
+name: On Vpn Windows CI
+
+on:
+  push:
+    paths:
+      - "windows/**"
+      - ".github/workflows/windows.yml"
+  pull_request:
+    paths:
+      - "windows/**"
+      - ".github/workflows/windows.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: windows
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "8.0.x"
+      - name: Restore
+        run: dotnet restore OnVpn.Client/OnVpn.Client.csproj
+      - name: Build
+        run: dotnet build OnVpn.Client/OnVpn.Client.csproj -c Release --no-restore -p:Platform=x64
+      - name: Publish Windows x64
+        run: dotnet publish OnVpn.Client/OnVpn.Client.csproj -c Release --no-restore -r win-x64 --self-contained false -p:Platform=x64 -o publish
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: OnVpn-Windows-x64
+          path: windows/publish/**
+          if-no-files-found: error
+          retention-days: 14
