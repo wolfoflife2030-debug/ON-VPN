@@ -44,7 +44,7 @@ public sealed class WireGuardService
         if (!File.Exists(exe)) return null;
         var name = Path.GetFileNameWithoutExtension(configPath);
         var output = await RunAsync(exe, $"show \"{name}\" transfer");
-        var values = output.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
+        var values = output.Split(new[] { ' ', '\r', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
         if (values.Length < 3) return null;
         return (values[^2] + " B", values[^1] + " B");
     }
